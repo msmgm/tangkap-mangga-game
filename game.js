@@ -503,3 +503,5 @@ function loop() {
 }
 
 requestAnimationFrame(loop);
+
+window.getGameState = () => ({ items, basket, score, lives, gameState });
