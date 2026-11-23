@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tangkap Mangga — Catch the Mangoes Game</title>
+    <meta name="description" content="A tiny browser game where mangoes fall from the sky and you catch them with a basket."/>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            font-family: system-ui, -apple-system, sans-serif;
+            color: #fff;
+            touch-action: none;
+        }
+        #game-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            max-width: 540px;
+            max-height: 960px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.8);
+            background: #222;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="gameCanvas" width="540" height="960"></canvas>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>
