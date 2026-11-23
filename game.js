@@ -139,7 +139,7 @@ function spawnItem() {
     const size = isBomb ? 35 : 30;
     items.push({
         x: Math.random() * (LOGICAL_WIDTH - 80) + 40,
-        y: -50,
+        y: 70,
         radius: size,
         speed: gameSpeed + Math.random() * 2,
         isBomb: isBomb,
@@ -505,3 +505,6 @@ function loop() {
 requestAnimationFrame(loop);
 
 window.getGameState = () => ({ items, basket, score, lives, gameState });
+window.setBasketX = (x) => {
+    basket.x = Math.max(0, Math.min(LOGICAL_WIDTH - basket.width, x - basket.width / 2));
+};
