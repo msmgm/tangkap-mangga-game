@@ -20,6 +20,7 @@ let basket = {
 
 let items = [];
 let particles = [];
+let floatingTexts = [];
 let spawnTimer = 0;
 let spawnInterval = 60; // frames
 let gameSpeed = 3;
@@ -162,6 +163,17 @@ function spawnParticles(x, y, color, count = 10) {
     }
 }
 
+function spawnFloatingText(text, x, y, color) {
+    floatingTexts.push({
+        text: text,
+        x: x,
+        y: y,
+        color: color,
+        alpha: 1,
+        vy: -2.5
+    });
+}
+
 function update() {
     if (gameState !== 'PLAYING') return;
 
@@ -181,6 +193,16 @@ function update() {
         p.alpha -= 0.03;
         if (p.alpha <= 0) {
             particles.splice(i, 1);
+        }
+    }
+
+    // Update floating texts
+    for (let i = floatingTexts.length - 1; i >= 0; i--) {
+        let ft = floatingTexts[i];
+        ft.y += ft.vy;
+        ft.alpha -= 0.025;
+        if (ft.alpha <= 0) {
+            floatingTexts.splice(i, 1);
         }
     }
 
@@ -210,6 +232,7 @@ function update() {
             if (item.isBomb) {
                 playBombSound();
                 spawnParticles(item.x, item.y, '#111', 15);
+                spawnFloatingText('BOMB!', item.x, item.y, '#ff3366');
                 lives--;
                 items.splice(i, 1);
                 if (lives <= 0) {
@@ -218,6 +241,7 @@ function update() {
             } else {
                 playPopSound();
                 spawnParticles(item.x, item.y, '#ff9f1c', 12);
+                spawnFloatingText('+1', item.x, item.y, '#ffd166');
                 score++;
                 items.splice(i, 1);
             }
@@ -230,6 +254,7 @@ function update() {
                 // Missed mango!
                 lives--;
                 spawnParticles(item.x, LOGICAL_HEIGHT - 60, '#ff3366', 8);
+                spawnFloatingText('MISS!', item.x, LOGICAL_HEIGHT - 80, '#ff3366');
                 playBombSound();
                 if (lives <= 0) {
                     gameOver();
@@ -448,6 +473,16 @@ function draw() {
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fill();
+        ctx.restore();
+    }
+
+    for (let ft of floatingTexts) {
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, ft.alpha);
+        ctx.fillStyle = ft.color;
+        ctx.font = 'bold 26px system-ui';
+        ctx.textAlign = 'center';
+        ctx.fillText(ft.text, ft.x, ft.y);
         ctx.restore();
     }
 

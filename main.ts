@@ -4,8 +4,6 @@ import * as path from 'node:path';
 const botDir = process.env.MAKEFUN_BOT_DIR || '/bot';
 const outputDir = process.env.MAKEFUN_OUTPUT_DIR || '/output';
 
-console.log(`Starting main.ts: botDir=${botDir}, outputDir=${outputDir}`);
-
 try {
     const srcPath = path.join(botDir, 'POST.json');
     const destDir = path.resolve(outputDir);
@@ -17,7 +15,6 @@ try {
 
     if (fs.existsSync(srcPath)) {
         fs.copyFileSync(srcPath, destPath);
-        console.log(`Successfully copied POST.json to ${destPath} at ${new Date().toISOString()}`);
     } else {
         console.error(`Source POST.json not found at ${srcPath}`);
         process.exit(1);
